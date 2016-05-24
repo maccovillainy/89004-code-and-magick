@@ -1,7 +1,7 @@
 # Личный проект «Код и Магия» [![Build status][travis-image]][travis-url] [![Dependency status][dependency-image]][dependency-url]
 
 * Студент: [Владимир Цибизов](https://up.htmlacademy.ru/javascript/5/user/89004).
-* Наставник: `Неизвестно`.
+* Наставник: [Максим Ерехинский](https://htmlacademy.ru/profile/id55044).
 
 ---
 
