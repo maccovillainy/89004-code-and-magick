@@ -425,10 +425,10 @@
           this.printText(this.ctx, winText, 320, 55, 300, 24);
           break;
         case Verdict.FAIL:
-          this.printText(failText);
+          this.printText(this.ctx, failText, 320, 55, 300, 24);
           break;
         case Verdict.PAUSE:
-          this.printText(pauseText);
+          this.printText(this.ctx, pauseText, 320, 55, 300, 24);
           break;
         case Verdict.INTRO:
           this.printText(this.ctx, introText, 320, 55, 300, 24);
