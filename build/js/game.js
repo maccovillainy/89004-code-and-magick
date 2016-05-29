@@ -374,22 +374,50 @@
       }
     },
 
+
+
     /**
      * Отрисовка экрана паузы.
      */
     _drawPauseScreen: function() {
+
+      this.ctx.font = '16px PT Mono';
+      this.ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
+      this.ctx.fillRect(310, 40, 300, 110);
+      this.ctx.fillStyle = '#ffffff';
+      this.ctx.fillRect(300, 30, 300, 110);
+      this.ctx.fillStyle = '#000000';
+
+      var lineHeight = 24;
+      var winText = ['Поздравляю!', 'Вы сбили, беспилотник!'];
+      var introText = ['Я умею перемещаться', 'и летать по нажатию', 'на стрелки. А если нажать', 'шифт, я выстрелю файрболом'];
+      var failText = ['Когда-то я умел перемещаться...', 'Давай попробуем', 'еще раз'];
+      var pauseText = ['Пауза?!', 'Мы с тобой еще не закончили!'];
+
       switch (this.state.currentStatus) {
         case Verdict.WIN:
-          console.log('you have won!');
+          for (var i = 0; i < winText.length; i++) {
+            this.ctx.fillText(winText[i], 310, 30 + lineHeight);
+            lineHeight += 24;
+          }
           break;
         case Verdict.FAIL:
-          console.log('you have failed!');
+          for (var i = 0; i < failText.length; i++) {
+            this.ctx.fillText(failText[i], 310, 30 + lineHeight);
+            lineHeight += 24;
+          }
           break;
         case Verdict.PAUSE:
-          console.log('game is on pause!');
+          for (var i = 0; i < pauseText.length; i++) {
+            this.ctx.fillText(pauseText[i], 310, 30 + lineHeight);
+            lineHeight += 24;
+          }
           break;
         case Verdict.INTRO:
-          console.log('welcome to the game! Press Space to start');
+          for (var i = 0; i < introText.length; i++) {
+            this.ctx.fillText(introText[i], 310, 30 + lineHeight);
+            lineHeight += 24;
+          }
           break;
       }
     },
