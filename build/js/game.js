@@ -378,13 +378,29 @@
     /**
      * Печать текста.
      */
-    printText: function(text) {
-      var lineHeight = 24;
+    printText: function(context, text, textLeft, textTop, textWidth, lineHeight) {
 
-      for (var i = 0; i < text.length; i++) {
-        this.ctx.fillText(text[i], 310, 30 + lineHeight);
-        lineHeight += 24;
+      var words = text.split(' ');
+      var countWords = words.length;
+      var line = '';
+
+      for (var n = 0; n < countWords; n++) {
+        var testLine = line + words[n] + ' ';
+        var testWidth = context.measureText(testLine).width;
+        if (testWidth > textWidth) {
+          context.fillText(line, textLeft, textTop);
+          line = words[n] + ' ';
+          textTop += lineHeight;
+        } else {
+          line = testLine;
+        }
       }
+
+      this.ctx.fillText(line, textLeft, textTop);
+      // for (var i = 0; i < text.length; i++) {
+      //   this.ctx.fillText(text[i], 310, 30 + lineHeight);
+      //   lineHeight += 24;
+      // }
     },
 
     /**
@@ -394,19 +410,19 @@
 
       this.ctx.font = '16px PT Mono';
       this.ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
-      this.ctx.fillRect(310, 40, 300, 110);
+      this.ctx.fillRect(320, 40, 300, 110);
       this.ctx.fillStyle = '#ffffff';
-      this.ctx.fillRect(300, 30, 300, 110);
+      this.ctx.fillRect(310, 30, 300, 110);
       this.ctx.fillStyle = '#000000';
 
-      var winText = ['Поздравляю!', 'Вы сбили, беспилотник!'];
-      var introText = ['Я умею перемещаться', 'и летать по нажатию', 'на стрелки. А если нажать', 'шифт, я выстрелю файрболом'];
-      var failText = ['Когда-то я умел перемещаться...', 'Давай попробуем', 'еще раз'];
-      var pauseText = ['Пауза?!', 'Мы с тобой еще не закончили!'];
+      var winText = 'Поздравляю! Вы сбили, беспилотник!';
+      var introText = 'Я умею перемещаться, и летать по нажатию на стрелки. А если нажать шифт, я выстрелю файрболом';
+      var failText = 'Когда-то я умел перемещаться... Давай попробуем еще раз';
+      var pauseText = 'Пауза?! Мы с тобой еще не закончили!';
 
       switch (this.state.currentStatus) {
         case Verdict.WIN:
-          this.printText(winText);
+          this.printText(this.ctx, winText, 320, 55, 300, 24);
           break;
         case Verdict.FAIL:
           this.printText(failText);
@@ -415,7 +431,7 @@
           this.printText(pauseText);
           break;
         case Verdict.INTRO:
-          this.printText(introText);
+          this.printText(this.ctx, introText, 320, 55, 300, 24);
           break;
       }
     },
