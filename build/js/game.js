@@ -406,7 +406,7 @@
 
       switch (this.state.currentStatus) {
         case Verdict.WIN:
-        this.printText(winText);
+          this.printText(winText);
           break;
         case Verdict.FAIL:
           this.printText(failText);
