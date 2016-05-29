@@ -256,6 +256,7 @@
     this._onKeyDown = this._onKeyDown.bind(this);
     this._onKeyUp = this._onKeyUp.bind(this);
     this._pauseListener = this._pauseListener.bind(this);
+    this.printText = this.printText.bind(this);
   };
 
   Game.prototype = {
@@ -374,7 +375,17 @@
       }
     },
 
+    /**
+     * Печать текста.
+     */
+    printText: function(text) {
+      var lineHeight = 24;
 
+      for (var i = 0; i < text.length; i++) {
+        this.ctx.fillText(text[i], 310, 30 + lineHeight);
+        lineHeight += 24;
+      }
+    },
 
     /**
      * Отрисовка экрана паузы.
@@ -388,38 +399,23 @@
       this.ctx.fillRect(300, 30, 300, 110);
       this.ctx.fillStyle = '#000000';
 
-      var lineHeight = 24;
       var winText = ['Поздравляю!', 'Вы сбили, беспилотник!'];
       var introText = ['Я умею перемещаться', 'и летать по нажатию', 'на стрелки. А если нажать', 'шифт, я выстрелю файрболом'];
       var failText = ['Когда-то я умел перемещаться...', 'Давай попробуем', 'еще раз'];
       var pauseText = ['Пауза?!', 'Мы с тобой еще не закончили!'];
 
-      var i;
-
       switch (this.state.currentStatus) {
         case Verdict.WIN:
-          for (i = 0; i < winText.length; i++) {
-            this.ctx.fillText(winText[i], 310, 30 + lineHeight);
-            lineHeight += 24;
-          }
+        this.printText(winText);
           break;
         case Verdict.FAIL:
-          for (i = 0; i < failText.length; i++) {
-            this.ctx.fillText(failText[i], 310, 30 + lineHeight);
-            lineHeight += 24;
-          }
+          this.printText(failText);
           break;
         case Verdict.PAUSE:
-          for (i = 0; i < pauseText.length; i++) {
-            this.ctx.fillText(pauseText[i], 310, 30 + lineHeight);
-            lineHeight += 24;
-          }
+          this.printText(pauseText);
           break;
         case Verdict.INTRO:
-          for (i = 0; i < introText.length; i++) {
-            this.ctx.fillText(introText[i], 310, 30 + lineHeight);
-            lineHeight += 24;
-          }
+          this.printText(introText);
           break;
       }
     },
