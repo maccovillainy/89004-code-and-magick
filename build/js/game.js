@@ -394,27 +394,29 @@
       var failText = ['Когда-то я умел перемещаться...', 'Давай попробуем', 'еще раз'];
       var pauseText = ['Пауза?!', 'Мы с тобой еще не закончили!'];
 
+      var i;
+
       switch (this.state.currentStatus) {
         case Verdict.WIN:
-          for (var i = 0; i < winText.length; i++) {
+          for (i = 0; i < winText.length; i++) {
             this.ctx.fillText(winText[i], 310, 30 + lineHeight);
             lineHeight += 24;
           }
           break;
         case Verdict.FAIL:
-          for (var i = 0; i < failText.length; i++) {
+          for (i = 0; i < failText.length; i++) {
             this.ctx.fillText(failText[i], 310, 30 + lineHeight);
             lineHeight += 24;
           }
           break;
         case Verdict.PAUSE:
-          for (var i = 0; i < pauseText.length; i++) {
+          for (i = 0; i < pauseText.length; i++) {
             this.ctx.fillText(pauseText[i], 310, 30 + lineHeight);
             lineHeight += 24;
           }
           break;
         case Verdict.INTRO:
-          for (var i = 0; i < introText.length; i++) {
+          for (i = 0; i < introText.length; i++) {
             this.ctx.fillText(introText[i], 310, 30 + lineHeight);
             lineHeight += 24;
           }
