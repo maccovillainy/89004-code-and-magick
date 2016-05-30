@@ -256,6 +256,7 @@
     this._onKeyDown = this._onKeyDown.bind(this);
     this._onKeyUp = this._onKeyUp.bind(this);
     this._pauseListener = this._pauseListener.bind(this);
+    this.printText = this.printText.bind(this);
   };
 
   Game.prototype = {
@@ -375,21 +376,62 @@
     },
 
     /**
+     * Печать текста.
+     */
+    printText: function(context, text, textLeft, textTop, textWidth, lineHeight) {
+
+      var words = text.split(' ');
+      var countWords = words.length;
+      var line = '';
+
+      for (var n = 0; n < countWords; n++) {
+        var testLine = line + words[n] + ' ';
+        var testWidth = context.measureText(testLine).width;
+        if (testWidth > textWidth) {
+          context.fillText(line, textLeft, textTop);
+          line = words[n] + ' ';
+          textTop += lineHeight;
+        } else {
+          line = testLine;
+        }
+      }
+
+      this.ctx.fillText(line, textLeft, textTop);
+      // for (var i = 0; i < text.length; i++) {
+      //   this.ctx.fillText(text[i], 310, 30 + lineHeight);
+      //   lineHeight += 24;
+      // }
+    },
+
+    /**
      * Отрисовка экрана паузы.
      */
     _drawPauseScreen: function() {
+
+      this.ctx.font = '16px PT Mono';
+      this.ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
+      this.ctx.fillRect(320, 40, 300, 110);
+      this.ctx.fillStyle = '#ffffff';
+      this.ctx.fillRect(310, 30, 300, 110);
+      this.ctx.fillStyle = '#000000';
+
+      var winText = 'Поздравляю! Вы сбили, беспилотник!';
+      var introText = 'Я умею перемещаться, и летать по нажатию на стрелки. А если нажать шифт, я выстрелю файрболом';
+      var failText = 'Когда-то я умел перемещаться... Давай попробуем еще раз';
+      var pauseText = 'Пауза?! Мы с тобой еще не закончили!';
+
       switch (this.state.currentStatus) {
         case Verdict.WIN:
-          console.log('you have won!');
+          this.printText(this.ctx, winText, 320, 55, 300, 24);
           break;
         case Verdict.FAIL:
-          console.log('you have failed!');
+          this.printText(this.ctx, failText, 320, 55, 300, 24);
           break;
         case Verdict.PAUSE:
-          console.log('game is on pause!');
+          this.printText(this.ctx, pauseText, 320, 55, 300, 24);
           break;
         case Verdict.INTRO:
-          console.log('welcome to the game! Press Space to start');
+          this.printText(this.ctx, introText, 320, 55, 300, 24);
           break;
       }
     },
