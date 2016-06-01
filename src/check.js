@@ -1,9 +1,11 @@
+'use strict';
+
 function multiplyArrays(arr1, arr2) {
-    var result = 0;
-    for(var i = 0; i < arr1.length; i++) {
-      result += arr1[i] * arr2[i];
-    }
-    return result;
+  var result = 0;
+  for(var i = 0; i < arr1.length; i++) {
+    result += arr1[i] * arr2[i];
+  }
+  return result;
 }
 
 function sumArrays(arr) {
@@ -11,7 +13,7 @@ function sumArrays(arr) {
   for(var i = 0; i < arr.length; i++) {
     sum += arr[i];
   }
-    return sum;
+  return sum;
 }
 
 function getMessage(a, b) {
@@ -28,6 +30,5 @@ function getMessage(a, b) {
       message = 'Я прошёл ' + sumArrays(a) + ' шагов';
     }
   }
-
   return message;
 }
