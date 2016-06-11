@@ -106,9 +106,9 @@
     var dateToExpire = nowDate - birthdayDate;
     var formattedDateToExpire = new Date(dateToExpire).toUTCString();
 
-    browserCookies.set('Mark', ratingItem.value, {expires: formatteddateToExpire});
-    browserCookies.set('Name', reviewName.value, {expires: formatteddateToExpire});
-    browserCookies.set('Review', reviewText.value, {expires: formatteddateToExpire});
+    browserCookies.set('Mark', ratingItem.value, {expires: formattedDateToExpire});
+    browserCookies.set('Name', reviewName.value, {expires: formattedDateToExpire});
+    browserCookies.set('Review', reviewText.value, {expires: formattedDateToExpire});
 
     form.submit();
 
