@@ -112,20 +112,5 @@
 
     form.submit();
 
-  }
-
-  // var thisYear = new Date();
-  // thisYear = thisYear.getFullYear();
-  //
-  // var birthdayDate = new Date(thisYear, 1, 22);
-  //
-  // var nowDate = new Date();
-  //
-  // var dateToExpire = nowDate - birthdayDate;
-  // var formattedDateToExpire = new Date(dateToExpire).toUTCString();
-  //
-  //
-  // console.log(thisYear);
-
-
+  };
 })();
