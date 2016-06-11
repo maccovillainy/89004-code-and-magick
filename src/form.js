@@ -99,7 +99,7 @@
     var thisYear = new Date();
     thisYear = thisYear.getFullYear();
 
-    var birthdayDate = new Date(thisYear, 1, 22);
+    var birthdayDate = new Date(thisYear, 0, 22);
 
     var nowDate = new Date();
 
