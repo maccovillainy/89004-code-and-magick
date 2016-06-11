@@ -28,6 +28,8 @@
   var MIN_RATING = 3;
   var isLowRating;
 
+  var browserCookies = require('browser-cookies');
+
   reviewButton.disabled = true;
 
   var checkRating = function() {
@@ -90,4 +92,40 @@
       }
     }
   };
+
+  form.onsubmit = function(evt) {
+    evt.preventDefault();
+
+    var thisYear = new Date();
+    thisYear = thisYear.getFullYear();
+
+    var birthdayDate = new Date(thisYear, 1, 22);
+
+    var nowDate = new Date();
+
+    var dateToExpire = nowDate - birthdayDate;
+    var formattedDateToExpire = new Date(dateToExpire).toUTCString();
+
+    document.cookie = 'ratingItem=' + ratingItem.value + ';expires=' + formattedDateToExpire;
+    document.cookie = 'reviewName=' + reviewName.value + ';expires=' + formattedDateToExpire;
+    document.cookie = 'reviewText=' + reviewText.value + ';expires=' + formattedDateToExpire;
+
+    form.submit();
+
+  }
+
+  // var thisYear = new Date();
+  // thisYear = thisYear.getFullYear();
+  //
+  // var birthdayDate = new Date(thisYear, 1, 22);
+  //
+  // var nowDate = new Date();
+  //
+  // var dateToExpire = nowDate - birthdayDate;
+  // var formattedDateToExpire = new Date(dateToExpire).toUTCString();
+  //
+  //
+  // console.log(thisYear);
+
+
 })();
