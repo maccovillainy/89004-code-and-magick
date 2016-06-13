@@ -96,19 +96,20 @@
   form.onsubmit = function(evt) {
     evt.preventDefault();
 
-    var thisYear = new Date();
-    thisYear = thisYear.getFullYear();
+    var now = new Date();
+    var lastBirthday = new Date(now.setMonth(0, 22));
+    var diff = Date.now() - lastBirthday.getTime();
 
-    var birthdayDate = new Date(thisYear, 0, 22);
+    if (diff < 0) {
+      lastBirthday.setFullYear(now.getFullYear() - 1);
+      diff = Date.now() - lastBirthday.getTime();
+    }
 
-    var nowDate = new Date();
-
-    var dateToExpire = nowDate - birthdayDate;
+    var dateToExpire = Date.now() + diff;
     var formattedDateToExpire = new Date(dateToExpire).toUTCString();
 
     browserCookies.set('Mark', ratingItem.value, {expires: formattedDateToExpire});
     browserCookies.set('Name', reviewName.value, {expires: formattedDateToExpire});
-    browserCookies.set('Review', reviewText.value, {expires: formattedDateToExpire});
 
     form.submit();
 
