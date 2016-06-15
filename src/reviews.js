@@ -1,3 +1,5 @@
+'use strict';
+
 function hiddenReviews() {
   var reviewFilter = document.querySelector('.reviews-filter');
 
@@ -18,7 +20,7 @@ if ('content' in template) {
 
 var IMAGE_LOAD_TIMEOUT = 10000;
 
-var getElementsFromTemplate = function (data, container) {
+var getElementsFromTemplate = function(data, container) {
 
   var element = elementToClone.cloneNode(true);
   element.querySelector('review-rating').textContent = data.rating;
@@ -28,9 +30,9 @@ var getElementsFromTemplate = function (data, container) {
   var backgroungImage = new Image();
   var backgroundLoadTimeout;
 
-  backgroungImage.onload = function (evt) {
+  backgroungImage.onload = function(evt) {
     element.style.backgroungImage = 'url(\'' + evt.target.src + '\')';
-  }
+  };
 
   backgroundImage.onerror = function() {
     element.classList.add('review-load-failure');
@@ -39,13 +41,13 @@ var getElementsFromTemplate = function (data, container) {
   backgroungImage.src = data.picture;
 
   backgroundLoadTimeout = setTimeout(function() {
-        backgroundImage.src = '';
-        element.classList.add('review-load-failure');
-    }, IMAGE_LOAD_TIMEOUT);
+    backgroundImage.src = '';
+    element.classList.add('review-load-failure');
+  }, IMAGE_LOAD_TIMEOUT);
 
   return element;
 };
 
-reviews.forEach(function(review) {
-    getElementsFromTemplate(review, reviewList);
+window.reviews.forEach(function(review) {
+  getElementsFromTemplate(review, reviewList);
 });
