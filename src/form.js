@@ -28,6 +28,8 @@
   var MIN_RATING = 3;
   var isLowRating;
 
+  var browserCookies = require('browser-cookies');
+
   reviewButton.disabled = true;
 
   var checkRating = function() {
@@ -89,5 +91,27 @@
         reviewButton.disabled = false;
       }
     }
+  };
+
+  form.onsubmit = function(evt) {
+    evt.preventDefault();
+
+    var now = new Date();
+    var lastBirthday = new Date(now.setMonth(0, 22));
+    var diff = Date.now() - lastBirthday.getTime();
+
+    if (diff < 0) {
+      lastBirthday.setFullYear(now.getFullYear() - 1);
+      diff = Date.now() - lastBirthday.getTime();
+    }
+
+    var dateToExpire = Date.now() + diff;
+    var formattedDateToExpire = new Date(dateToExpire).toUTCString();
+
+    browserCookies.set('Mark', ratingItem.value, {expires: formattedDateToExpire});
+    browserCookies.set('Name', reviewName.value, {expires: formattedDateToExpire});
+
+    form.submit();
+
   };
 })();
