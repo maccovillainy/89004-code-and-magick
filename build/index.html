@@ -121,5 +121,15 @@
 
 <script src="js/main.js"></script>
 
+<script>
+  var reviews = [];
+
+  var __reviewsLoadCallback = function(data) {
+    reviews = data;
+  }
+</script>
+
+<script src="http://up.htmlacademy.ru/assets/js_intensive/jsonp/reviews.js"></script>
+
 </body>
 </html>
