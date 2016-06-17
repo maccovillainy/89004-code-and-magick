@@ -23,15 +23,16 @@ var IMAGE_LOAD_TIMEOUT = 10000;
 var getElementsFromTemplate = function(data, container) {
 
   var element = elementToClone.cloneNode(true);
-  element.querySelector('review-rating').textContent = data.rating;
-  element.querySelector('review-text').textContent = data.description;
+  
+  element.querySelector('.review-rating').textContent = data.rating;
+  element.querySelector('.review-text').textContent = data.description;
   container.appendChild(element);
 
   var backgroundImage = new Image();
   var backgroundLoadTimeout;
 
   backgroundImage.onload = function(evt) {
-    element.style.backgroungImage = 'url(\'' + evt.target.src + '\')';
+    element.style.background = 'url(\'' + evt.target.src + '\') no-repeat';
     clearTimeout(backgroundLoadTimeout);
   };
 
@@ -39,7 +40,7 @@ var getElementsFromTemplate = function(data, container) {
     element.classList.add('review-load-failure');
   };
 
-  backgroundImage.src = data.picture;
+  backgroundImage.src = data.author.picture;
 
   backgroundLoadTimeout = setTimeout(function() {
     backgroundImage.src = '';
@@ -51,4 +52,5 @@ var getElementsFromTemplate = function(data, container) {
 
 window.reviews.forEach(function(data) {
   getElementsFromTemplate(data, reviewList);
+
 });
