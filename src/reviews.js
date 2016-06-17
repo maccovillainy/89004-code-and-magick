@@ -32,7 +32,7 @@ var getElementsFromTemplate = function(data, container) {
   var backgroundImage = new Image();
   var backgroundLoadTimeout;
 
-  backgroundImage.onload = function(evt) {
+  backgroundImage.onload = function() {
     reviewAuthor.src = backgroundImage.src;
     reviewAuthor.width = 124;
     reviewAuthor.height = 124;
