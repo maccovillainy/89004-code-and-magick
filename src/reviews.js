@@ -23,7 +23,8 @@ var IMAGE_LOAD_TIMEOUT = 10000;
 var getElementsFromTemplate = function(data, container) {
 
   var element = elementToClone.cloneNode(true);
-  
+  var reviewAuthor = element.querySelector('.review-author');
+
   element.querySelector('.review-rating').textContent = data.rating;
   element.querySelector('.review-text').textContent = data.description;
   container.appendChild(element);
@@ -32,7 +33,12 @@ var getElementsFromTemplate = function(data, container) {
   var backgroundLoadTimeout;
 
   backgroundImage.onload = function(evt) {
-    element.style.background = 'url(\'' + evt.target.src + '\') no-repeat';
+    reviewAuthor.src = backgroundImage.src;
+    reviewAuthor.width = 124;
+    reviewAuthor.height = 124;
+    reviewAuthor.alt = data.author.name;
+    reviewAuthor.title = data.author.name;
+    console.log(data.author.picture);
     clearTimeout(backgroundLoadTimeout);
   };
 
