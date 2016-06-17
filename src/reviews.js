@@ -27,18 +27,19 @@ var getElementsFromTemplate = function(data, container) {
   element.querySelector('review-text').textContent = data.description;
   container.appendChild(element);
 
-  var backgroungImage = new Image();
+  var backgroundImage = new Image();
   var backgroundLoadTimeout;
 
-  backgroungImage.onload = function(evt) {
+  backgroundImage.onload = function(evt) {
     element.style.backgroungImage = 'url(\'' + evt.target.src + '\')';
+    clearTimeout(backgroundLoadTimeout);
   };
 
   backgroundImage.onerror = function() {
     element.classList.add('review-load-failure');
   };
 
-  backgroungImage.src = data.picture;
+  backgroundImage.src = data.picture;
 
   backgroundLoadTimeout = setTimeout(function() {
     backgroundImage.src = '';
@@ -48,6 +49,6 @@ var getElementsFromTemplate = function(data, container) {
   return element;
 };
 
-window.reviews.forEach(function(review) {
-  getElementsFromTemplate(review, reviewList);
+window.reviews.forEach(function(data) {
+  getElementsFromTemplate(data, reviewList);
 });
