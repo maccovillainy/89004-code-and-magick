@@ -1,16 +1,14 @@
 'use strict';
 
-function hiddenReviews() {
-  var reviewFilter = document.querySelector('.reviews-filter');
-
-  reviewFilter.classList.add('invisible');
-}
-
-hiddenReviews();
+var reviewFilter = document.querySelector('.reviews-filter');
+reviewFilter.classList.add('invisible');
 
 var template = document.querySelector('template');
 var reviewList = document.querySelector('.reviews-list');
 var elementToClone;
+
+var IMAGE_LOAD_TIMEOUT = 10000;
+var REVIEWS_LOAD_URL = 'http://o0.github.io/assets/json/reviews.json';
 
 if ('content' in template) {
   elementToClone = template.content.querySelector('.review');
@@ -18,8 +16,11 @@ if ('content' in template) {
   elementToClone = template.querySelector('.review');
 }
 
-var IMAGE_LOAD_TIMEOUT = 10000;
-
+/**
+ * @param {Object} data
+ * @param {HTMLElement} container
+ * @return {HTMLElement}
+ */
 var getElementsFromTemplate = function(data, container) {
 
   var element = elementToClone.cloneNode(true);
@@ -56,7 +57,42 @@ var getElementsFromTemplate = function(data, container) {
   return element;
 };
 
-window.reviews.forEach(function(data) {
-  getElementsFromTemplate(data, reviewList);
+/** @param {function(Array.<Object>)} callback */
+var getReviews = function(callback) {
+  var xhr = new XMLHttpRequest();
+  var reviewsList = document.querySelector('.reviews');
 
-});
+  /** @param {ProgressEvent} evt */
+  xhr.onload = function(evt) {
+    var loadedData = JSON.parse(evt.target.response);
+    callback(loadedData);
+  };
+
+  /** @param {ProgressEvent}  */
+  xhr.onerror = function() {
+    reviewsList.classList.add('.reviews-load-failure');
+  };
+
+  /** @param {ProgressEvent} evt */
+  xhr.onreadystatechange = function(evt) {
+    if(xhr.readyState === 4) {
+      var loadedData = JSON.parse(evt.target.response);
+      callback(loadedData);
+    } else {
+      reviewsList.classList.add('.reviews-list-loading');
+    }
+  };
+
+  xhr.open('GET', REVIEWS_LOAD_URL);
+  xhr.send();
+};
+
+/** @param {Array.<Object>} reviews */
+var renderReviews = function(reviews) {
+  reviews.forEach(function(data) {
+    getElementsFromTemplate(data, reviewList);
+    reviewFilter.classList.remove('invisible');
+  });
+};
+
+getReviews(renderReviews);
