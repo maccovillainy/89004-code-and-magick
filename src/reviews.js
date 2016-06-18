@@ -6,7 +6,7 @@ reviewFilter.classList.add('invisible');
 var template = document.querySelector('template');
 var reviewList = document.querySelector('.reviews-list');
 var elementToClone;
-var reviews;
+// var reviews;
 
 var IMAGE_LOAD_TIMEOUT = 10000;
 var REVIEWS_LOAD_URL = 'http://o0.github.io/assets/json/reviews.json';
@@ -106,13 +106,13 @@ var getFilteredReviews = function(reviews, filter) {
   var reviewsToFilter = reviews.slice(0);
 
   var getFilterGoodReviews = function() {
-    reviewsToFilter = reviews.slice(0).filter(function(item, i, arr) {
+    reviewsToFilter = reviews.slice(0).filter(function(item) {
       return item.rating >= 3;
     });
   };
 
   var getFilterBadReviews = function() {
-    reviewsToFilter = reviews.slice(0).filter(function(item, i, arr) {
+    reviewsToFilter = reviews.slice(0).filter(function(item) {
       return item.rating <= 2;
     });
   };
@@ -135,7 +135,7 @@ var getFilteredReviews = function(reviews, filter) {
       break;
 
     case 'reviews-bad':
-    getFilterBadReviews();
+      getFilterBadReviews();
       reviewsToFilter.sort(function(a, b) {
         return a.rating - b.rating;
       });
@@ -155,15 +155,12 @@ var getFilteredReviews = function(reviews, filter) {
 var setFilterEnabled = function(filter) {
   var filteredReviews = getFilteredReviews(reviews, filter);
   renderReviews(filteredReviews);
-
-
 };
 
 var setFiltrationEnabled = function() {
   var filters = reviewFilter.querySelectorAll('[name=reviews]');
   for (var i = 0; i < filters.length; i++) {
-    filters[i].onclick = function(evt) {
-      console.log('fdfdfd');
+    filters[i].onclick = function() {
       setFilterEnabled(this.id);
 
     };
@@ -171,7 +168,7 @@ var setFiltrationEnabled = function() {
 };
 
 getReviews(function(loadedReviews) {
-  reviews = loadedReviews;
+  var reviews = loadedReviews;
   setFiltrationEnabled();
   renderReviews(reviews);
 });
