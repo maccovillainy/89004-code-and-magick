@@ -6,7 +6,7 @@ reviewFilter.classList.add('invisible');
 var template = document.querySelector('template');
 var reviewList = document.querySelector('.reviews-list');
 var elementToClone;
-// var reviews;
+var reviews;
 
 var IMAGE_LOAD_TIMEOUT = 10000;
 var REVIEWS_LOAD_URL = 'http://o0.github.io/assets/json/reviews.json';
@@ -60,39 +60,32 @@ var getElementsFromTemplate = function(data, container) {
 
 /** @param {function(Array.<Object>)} callback */
 var getReviews = function(callback) {
-  var xhr = new XMLHttpRequest();
   var reviewsList = document.querySelector('.reviews');
+  reviewsList.classList.add('.reviews-list-loading');
+  var xhr = new XMLHttpRequest();
 
   /** @param {ProgressEvent} evt */
   xhr.onload = function(evt) {
+    reviewsList.classList.remove('.reviews-list-loading');
     var loadedData = JSON.parse(evt.target.response);
     callback(loadedData);
   };
 
   /** @param {ProgressEvent} */
   xhr.onerror = function() {
+    reviewsList.classList.remove('.reviews-list-loading');
     reviewsList.classList.add('.reviews-load-failure');
   };
-
-  /** @param {ProgressEvent} evt */
-  // xhr.onreadystatechange = function(evt) {
-  //   if(xhr.readyState === 4) {
-  //     var loadedData = JSON.parse(evt.target.response);
-  //     callback(loadedData);
-  //   } else {
-  //     reviewsList.classList.add('.reviews-list-loading');
-  //   }
-  // };
 
   xhr.open('GET', REVIEWS_LOAD_URL);
   xhr.send();
 };
 
 /** @param {Array.<Object>} reviews */
-var renderReviews = function(reviews) {
+var renderReviews = function(rev) {
   reviewList.innerHTML = '';
 
-  reviews.forEach(function(data) {
+  rev.forEach(function(data) {
     getElementsFromTemplate(data, reviewList);
     reviewFilter.classList.remove('invisible');
   });
@@ -102,17 +95,17 @@ var renderReviews = function(reviews) {
  * @param {Array.<Object>} hotels
  * @param {string} filter
  */
-var getFilteredReviews = function(reviews, filter) {
+var getFilteredReviews = function(filter) {
   var reviewsToFilter = reviews.slice(0);
 
   var getFilterGoodReviews = function() {
-    reviewsToFilter = reviews.slice(0).filter(function(item) {
+    reviewsToFilter = reviewsToFilter.filter(function(item) {
       return item.rating >= 3;
     });
   };
 
   var getFilterBadReviews = function() {
-    reviewsToFilter = reviews.slice(0).filter(function(item) {
+    reviewsToFilter = reviewsToFilter.filter(function(item) {
       return item.rating <= 2;
     });
   };
@@ -153,7 +146,7 @@ var getFilteredReviews = function(reviews, filter) {
 
 /** @param {string} filter */
 var setFilterEnabled = function(filter) {
-  var filteredReviews = getFilteredReviews(reviews, filter);
+  var filteredReviews = getFilteredReviews(filter);
   renderReviews(filteredReviews);
 };
 
@@ -168,7 +161,7 @@ var setFiltrationEnabled = function() {
 };
 
 getReviews(function(loadedReviews) {
-  var reviews = loadedReviews;
+  reviews = loadedReviews;
   setFiltrationEnabled();
   renderReviews(reviews);
 });
