@@ -21,7 +21,7 @@ var REVIEWS_LOAD_URL = 'http://o0.github.io/assets/json/reviews.json';
 var PAGE_SIZE = 3;
 
 /** @type {number} */
-var pageNumber = 0;
+var pageNumber = 1;
 
 if ('content' in template) {
   elementToClone = template.content.querySelector('.review');
@@ -175,18 +175,17 @@ var setFiltrationEnabled = function() {
   for (var i = 0; i < filters.length; i++) {
     filters[i].onclick = function() {
       setFilterEnabled(this.id);
-
     };
   }
 };
 
 /** @return {boolean} */
-var isBottomReached = function() {
-  var GAP = 100;
-  var footerElement = document.querySelector('footer');
-  var footerPosition = footerElement.getBoundingClientRect();
-  return footerPosition.top - window.innerHeight - 100 <= 0;
-};
+// var isBottomReached = function() {
+//   var GAP = 100;
+//   var footerElement = document.querySelector('footer');
+//   var footerPosition = footerElement.getBoundingClientRect();
+//   return footerPosition.top - window.innerHeight - GAP <= 0;
+// };
 
 /**
  * @param {Array} hotels
@@ -194,31 +193,43 @@ var isBottomReached = function() {
  * @param {number} pageSize
  * @return {boolean}
  */
-var isNextPageAvailable = function(reviews, page, pageSize) {
-  return page < Math.floor(reviews.length / pageSize);
+// var isNextPageAvailable = function(rev, page, pageSize) {
+//   return page < Math.floor(rev.length / pageSize);
+// };
+
+var setMoreReviewEnabled = function() {
+  var moreReviewButton = document.querySelector('.reviews-controls-more');
+
+  moreReviewButton.classList.remove('invisible');
+
+  moreReviewButton.onclick = function() {
+    renderReviews(filteredReviews, pageNumber);
+    pageNumber++;
+  };
 };
 
-var THROTTLE_DELAY = 100;
+// var THROTTLE_DELAY = 100;
+//
+// var setScrollEnabled = function() {
+//
+//   var lastCall = Date.now();
+//
+//   window.addEventListener('scroll', function(evt) {
+//     if (Date.now() - lastCall >= THROTTLE_DELAY) {
+//       if (isBottomReached() &&
+//           isNextPageAvailable(reviews, pageNumber, PAGE_SIZE)) {
+//         pageNumber++;
+//         renderReviews(filteredReviews, pageNumber);
+//       }
+//     lastCall = Date.now();
+//     }
+//   });
+// };
 
-var setScrollEnabled = function() {
-  var lastCall = Date.now();
-
-  window.addEventListener('scroll', function(evt) {
-      if (Date.now() - lastCall >= THROTTLE_DELAY) {
-        if (isBottomReached() &&
-            isNextPageAvailable(reviews, pageNumber, PAGE_SIZE)) {
-          pageNumber++;
-          renderReviews(filteredReviews, pageNumber);
-        }
-
-    lastCall = Date.now();
-    }
-  });
-};
 
 getReviews(function(loadedReviews) {
   reviews = loadedReviews;
   setFilterEnabled(true);
   setFiltrationEnabled();
-  setScrollEnabled();
+  setMoreReviewEnabled();
 });
